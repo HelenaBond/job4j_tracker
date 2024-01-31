@@ -7,20 +7,20 @@ public class Broken {
     private String surname;
     private String name;
 
-    Broken() {
+    public Broken() {
 
     }
 
-    void echo() { }
+    public void echo() { }
 
-    void media(Object obj) {
+    public void media(Object obj) {
         if (obj != null) {
             System.out.println(obj);
         }
 
     }
 
-    void method(int a, int b, int c) {
+    public void method(int a, int b, int c) {
 
     }
 }
