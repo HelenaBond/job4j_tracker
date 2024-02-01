@@ -1,4 +1,4 @@
-package ru.job4j.tracker.oop.colobok;
+package ru.job4j.oop.colobok;
 
 public class Ball {
     public void tryRun(boolean condition) {
