@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 public class Item {
     private int id;
     private String name;
-    private LocalDateTime created = LocalDateTime.now();
+    private LocalDateTime created;
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd-MMMM-EEEE-yyyy HH:mm:ss");
 
     public Item() {
@@ -14,6 +14,7 @@ public class Item {
 
     public Item(String name) {
         this.name = name;
+        created = LocalDateTime.now();
     }
 
     public Item(int id, String name) {
@@ -43,10 +44,10 @@ public class Item {
 
     @Override
     public String toString() {
-        return "Item{"
+        return "Item { "
                 + "id = " + id
                 + ", name = '" + name + '\''
                 + ", created = " + created.format(FORMATTER)
-                + '}';
+                + " }";
     }
 }
