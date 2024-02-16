@@ -1,4 +1,6 @@
-package ru.job4j.tracker;
+package ru.job4j.tracker.actions;
+
+import ru.job4j.tracker.*;
 
 public class FindByIdAction implements UserAction {
     private Output output;
@@ -20,7 +22,7 @@ public class FindByIdAction implements UserAction {
         if (item != null) {
             output.println(item);
         } else {
-            output.println("Заявка с введенным id: " + id + " не найдена.");
+            output.println("Заявка с введенным id: " + id + " не найдена");
         }
         return true;
     }

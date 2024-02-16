@@ -1,4 +1,6 @@
-package ru.job4j.tracker;
+package ru.job4j.tracker.actions;
+
+import ru.job4j.tracker.*;
 
 public class FindByNameAction implements UserAction {
     private Output output;
@@ -22,7 +24,7 @@ public class FindByNameAction implements UserAction {
                 output.println(item);
             }
         } else {
-            output.println("Заявки с именем: " + name + " не найдены.");
+            output.println("Заявки с именем: " + name + " не найдены");
         }
         return true;
     }
