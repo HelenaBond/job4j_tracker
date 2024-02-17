@@ -43,10 +43,10 @@ public class Item {
 
     @Override
     public String toString() {
-        return "Item{"
+        return "Item { "
                 + "id = " + id
                 + ", name = '" + name + '\''
                 + ", created = " + created.format(FORMATTER)
-                + '}';
+                + " }";
     }
 }
