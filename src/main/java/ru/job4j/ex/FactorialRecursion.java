@@ -2,7 +2,7 @@ package ru.job4j.ex;
 
 public class FactorialRecursion {
     public static int calc(int n) {
-        if (n == 0) {
+        if (n == 0 || n == 1) {
             return 1;
         }
         return n * calc(n - 1);
