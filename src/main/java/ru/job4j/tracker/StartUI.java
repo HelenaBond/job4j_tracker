@@ -3,7 +3,7 @@ package ru.job4j.tracker;
 import ru.job4j.tracker.action.*;
 
 public class StartUI {
-    private Output output;
+    private final Output output;
 
     public StartUI(Output output) {
         this.output = output;
@@ -14,6 +14,10 @@ public class StartUI {
         while (run) {
             showMenu(actions);
             int select = input.askInt("Выбрать: ");
+            if (select < 0 || select >= actions.length) {
+                output.println("Неверный ввод, вы можете выбрать: 0 .. " + (actions.length - 1));
+                continue;
+            }
             UserAction action = actions[select];
             run = action.execute(input, tracker);
         }
@@ -28,7 +32,7 @@ public class StartUI {
 
     public static void main(String[] args) {
         Output output = new ConsoleOutput();
-        Input input = new ConsoleInput(output);
+        Input input = new ValidateInput(output, new ConsoleInput(output));
         Tracker tracker = new Tracker();
         UserAction[] actions = {
                 new Create(output),
