@@ -3,7 +3,7 @@ package ru.job4j.tracker;
 import java.util.Scanner;
 
 public class ConsoleInput implements Input {
-    private Output output;
+    private final Output output;
     private final Scanner scanner = new Scanner(System.in);
 
     public ConsoleInput(Output output) {
