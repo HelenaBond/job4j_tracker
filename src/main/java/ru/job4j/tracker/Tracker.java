@@ -1,6 +1,7 @@
 package ru.job4j.tracker;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Tracker {
@@ -23,7 +24,7 @@ public class Tracker {
     }
 
     public List<Item> findByName(String key) {
-        List<Item> result = new ArrayList<>();
+        List<Item> result = new LinkedList<>();
         for (Item current : items) {
             if (key.equals(current.getName())) {
                 result.add(current);
