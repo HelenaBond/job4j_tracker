@@ -9,6 +9,7 @@ public class UsageMap {
         data.put("lena@mail.com", "Бондарева Елена Викторовна");
         data.put("dasha@mail.com", "Осечкина Дарья Ивановна");
         data.put("katya@mail.com", "Власова Екатерина Леонидовна");
+        data.put("katya@mail.com", "Пинчук Екатерина Леонидовна");
         for (Map.Entry<String, String> user : data.entrySet()) {
             System.out.println(user);
         }
