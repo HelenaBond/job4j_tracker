@@ -71,7 +71,7 @@ public class AnalyzeByMap {
         for (Map.Entry<String, Integer> subject : allSubjects.entrySet()) {
             labels.add(new Label(subject.getKey(), subject.getValue()));
         }
-        labels.sort(Comparator.naturalOrder());
+        Collections.sort(labels);
         return labels.get(labels.size() - 1);
     }
 }
