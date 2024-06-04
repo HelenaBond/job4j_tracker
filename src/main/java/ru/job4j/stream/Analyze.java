@@ -67,9 +67,8 @@ public class Analyze {
                         Collectors.summingDouble(Subject::score)
                 )
         );
-        return subjects.entrySet().stream()
-                .map(entry -> new Tuple(entry.getKey(), entry.getValue()))
-                .max(Comparator.comparing(Tuple::score))
-                .orElse(null);
+        Map.Entry<String, Double> best = subjects.entrySet().stream()
+                .max(Map.Entry.comparingByValue()).orElse(null);
+        return best == null ? null : new Tuple(best.getKey(), best.getValue());
     }
 }
