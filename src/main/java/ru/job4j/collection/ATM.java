@@ -3,56 +3,56 @@ import java.util.*;
 
 public class ATM {
 
-    //amount < общей суммы денег в банкомате провалидировано заранее.
-    public static Map<Integer, Integer> giveMyMoney(int amount, TreeMap<Integer, Integer> availableNotes) {
-        int[] memo = new int[amount + 1];
-        memo[0] = -1;
-        for (Map.Entry<Integer, Integer> entry : availableNotes.entrySet()) {
-            int banknote = entry.getKey();
-            int count = entry.getValue();
-            for (int i = 1; i < memo.length; i++) {
-                if (i >=  banknote && memo[i - banknote] != 0 && count > 0) {
-                    memo[i] = Math.max(memo[i], banknote);
-                    if (memo[memo.length - 1] != 0) {
-                        return getCash(memo);
-                    }
-                    count--;
-                }
-            }
-        }
-        return null;
+    public static TreeMap<Integer, Integer> iWantToGet(int amountRequired, Map<Integer, Integer> limits) {
+        List<Integer> nominals = new ArrayList<>(limits.keySet());
+        nominals.sort(Collections.reverseOrder()); // Sort in descending order
+
+        return collect(amountRequired, nominals, limits);
     }
 
-    private static Map<Integer, Integer> getCash(int[] memo) {
-        Map<Integer, Integer> res = new TreeMap<>();
-        int index = memo.length - 1;
-        while (index > 0) {
-            res.put(memo[index], res.getOrDefault(memo[index], 0) + 1);
-            index -= memo[index];
+    private static TreeMap<Integer, Integer> collect(int amount, List<Integer> nominals, Map<Integer, Integer> limits) {
+        if (amount == 0) {
+            return new TreeMap<>(Comparator.reverseOrder()); // Success: return an empty map
         }
-        return res;
+
+        if (nominals.isEmpty()) {
+            return null; // Failure: return null
+        }
+
+        int currentNominal = nominals.get(0);
+        int availableNotes = limits.getOrDefault(currentNominal, 0);
+        int notesNeeded = amount / currentNominal;
+        int numberOfNotes = Math.min(availableNotes, notesNeeded);
+
+        for (int i = numberOfNotes; i >= 0; i--) {
+            TreeMap<Integer, Integer> result = collect(amount - i * currentNominal, nominals.subList(1, nominals.size()), limits);
+
+            if (result != null) {
+                if (i > 0) {
+                    result.put(currentNominal, i);
+                }
+                return result;
+            }
+        }
+
+        return null; // No valid combination found
     }
 
     public static void main(String[] args) {
-        int amount = 1000;
+        Map<Integer, Integer> limits = new HashMap<>();
+        limits.put(500, 100);
+        limits.put(200, 2);
+        limits.put(100, 3);
 
-        // Начальное состояние купюр в банкомате
-        TreeMap<Integer, Integer> availableNotes = new TreeMap<>(Comparator.reverseOrder());
-        availableNotes.put(500, 2);
-        availableNotes.put(200, 200);
-
-        // Выдаем сумму amount из банкомата
-        Map<Integer, Integer> cash = giveMyMoney(amount, availableNotes);
-        if (cash != null) {
-            System.out.println("Выдано:");
-            for (Map.Entry<Integer, Integer> entry : cash.entrySet()) {
-                System.out.println(entry.getKey() + " рублей: " + entry.getValue() + " купюр");
-            }
-        } else {
-            System.out.println("Невозможно выдать требуемую сумму");
-        }
+        System.out.println(iWantToGet(230, limits)); // {30=1, 100=2}
+        System.out.println(iWantToGet(1000, limits)); // {1000=1}
+        System.out.println(iWantToGet(200, limits)); // {100=2}
+        System.out.println(iWantToGet(400, limits)); // {50=1, 100=1}
+        System.out.println(iWantToGet(120, limits)); // {30=4}
+        System.out.println(iWantToGet(275, limits)); // {100=2, 50=1, 30=1}
     }
 }
+
 
 
 
