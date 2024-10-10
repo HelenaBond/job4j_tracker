@@ -11,15 +11,15 @@ public class Address {
 
     private int apartment;
 
-    public String getCity() {
-        return city;
-    }
-
     public Address(String city, String street, int home, int apartment) {
         this.city = city;
         this.street = street;
         this.home = home;
         this.apartment = apartment;
+    }
+
+    public String getCity() {
+        return city;
     }
 
     @Override
