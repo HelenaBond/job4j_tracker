@@ -1,5 +1,5 @@
 create table items (
     id serial primary key,
-    name text,
+    "name" text,
     created timestamp
 );

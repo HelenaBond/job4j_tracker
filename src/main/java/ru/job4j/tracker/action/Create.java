@@ -1,6 +1,9 @@
 package ru.job4j.tracker.action;
 
-import ru.job4j.tracker.*;
+import ru.job4j.tracker.Input;
+import ru.job4j.tracker.Item;
+import ru.job4j.tracker.Output;
+import ru.job4j.tracker.Store;
 
 public class Create implements UserAction {
     private final Output output;
@@ -15,12 +18,12 @@ public class Create implements UserAction {
     }
 
     @Override
-    public boolean execute(Input input, Tracker tracker) {
+    public boolean execute(Input input, Store store) {
         output.println("=== Создание новой заявки ===");
         String name = input.askStr("Введите имя: ");
         Item item = new Item(name);
-        tracker.add(item);
-        output.println("Добавленная заявка: " + item);
+        String result = store.add(item).getId() > 0 ? "Добавлена заявка: " + item : "Ошибка. Заявка не добавлена.";
+        output.println(result);
         return true;
     }
 }
