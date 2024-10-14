@@ -1,8 +1,10 @@
-package ru.job4j.tracker;
+package ru.job4j.tracker.store;
+
+import ru.job4j.tracker.Item;
 
 import java.util.List;
 
-public final class SingleTracker {
+public final class SingleTracker implements AutoCloseable {
 
     private static SingleTracker singleTracker;
 
@@ -41,5 +43,9 @@ public final class SingleTracker {
     public boolean delete(int id) {
         store.delete(id);
         return store.findById(id) == null;
+    }
+
+    @Override
+    public void close() throws Exception {
     }
 }

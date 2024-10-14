@@ -1,4 +1,6 @@
-package ru.job4j.tracker;
+package ru.job4j.tracker.store;
+
+import ru.job4j.tracker.Item;
 
 import java.io.InputStream;
 import java.sql.*;
@@ -42,7 +44,7 @@ public class SqlTracker implements Store {
 
     @Override
     public Item add(Item item) {
-        var sql = "INSERT INTO items (\"name\", created) VALUES (?, ?)";
+        var sql = "INSERT INTO items (name, created) VALUES (?, ?)";
         try (var preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, item.getName());
             var timestamp = Timestamp.valueOf(item.getCreated());
@@ -65,7 +67,7 @@ public class SqlTracker implements Store {
         boolean result = false;
         try (var preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, item.getName());
-            preparedStatement.setInt(2, item.getId());
+            preparedStatement.setInt(2, id);
             result = preparedStatement.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();
@@ -118,7 +120,9 @@ public class SqlTracker implements Store {
         try (var preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, id);
             var resultSet = preparedStatement.executeQuery();
-            item = getItem(resultSet);
+            if (resultSet.next()) {
+                item = getItem(resultSet);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
