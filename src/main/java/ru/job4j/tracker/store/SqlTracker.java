@@ -80,7 +80,7 @@ public class SqlTracker implements Store {
         var sql = "DELETE FROM items WHERE id = ?";
         try (var preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, id);
-            preparedStatement.executeUpdate();
+            preparedStatement.execute();
         } catch (Exception e) {
             e.printStackTrace();
         }
