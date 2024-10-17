@@ -1,6 +1,8 @@
 package ru.job4j.tracker;
 
 import ru.job4j.tracker.action.*;
+import ru.job4j.tracker.store.SqlTracker;
+import ru.job4j.tracker.store.Store;
 
 import java.util.Arrays;
 import java.util.List;
@@ -12,7 +14,7 @@ public class StartUI {
         this.output = output;
     }
 
-    public void init(Input input, Tracker tracker, List<UserAction> actions) {
+    public void init(Input input, Store store, List<UserAction> actions) {
         boolean run = true;
         while (run) {
             showMenu(actions);
@@ -22,7 +24,7 @@ public class StartUI {
                 continue;
             }
             UserAction action = actions.get(select);
-            run = action.execute(input, tracker);
+            run = action.execute(input, store);
         }
     }
 
@@ -36,16 +38,19 @@ public class StartUI {
     public static void main(String[] args) {
         Output output = new ConsoleOutput();
         Input input = new ValidateInput(output, new ConsoleInput(output));
-        Tracker tracker = new Tracker();
-        List<UserAction> actions = Arrays.asList(
-                new Create(output),
-                new FindAll(output),
-                new Replace(output),
-                new Delete(output),
-                new FindById(output),
-                new FindByName(output),
-                new Exit(output)
-        );
-        new StartUI(output).init(input, tracker, actions);
+        try (Store store = new SqlTracker()) {
+            List<UserAction> actions = Arrays.asList(
+                    new Create(output),
+                    new FindAll(output),
+                    new Replace(output),
+                    new Delete(output),
+                    new FindById(output),
+                    new FindByName(output),
+                    new Exit(output)
+            );
+            new StartUI(output).init(input, store, actions);
+        }  catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -5,18 +5,18 @@ public class ATM {
 
     public static TreeMap<Integer, Integer> iWantToGet(int amountRequired, Map<Integer, Integer> limits) {
         List<Integer> nominals = new ArrayList<>(limits.keySet());
-        nominals.sort(Collections.reverseOrder()); // Sort in descending order
+        nominals.sort(Collections.reverseOrder());
 
         return collect(amountRequired, nominals, limits);
     }
 
     private static TreeMap<Integer, Integer> collect(int amount, List<Integer> nominals, Map<Integer, Integer> limits) {
         if (amount == 0) {
-            return new TreeMap<>(Comparator.reverseOrder()); // Success: return an empty map
+            return new TreeMap<>(Comparator.reverseOrder());
         }
 
         if (nominals.isEmpty()) {
-            return null; // Failure: return null
+            return null;
         }
 
         int currentNominal = nominals.get(0);
@@ -35,7 +35,7 @@ public class ATM {
             }
         }
 
-        return null; // No valid combination found
+        return null;
     }
 
     public static void main(String[] args) {
@@ -44,12 +44,12 @@ public class ATM {
         limits.put(200, 2);
         limits.put(100, 3);
 
-        System.out.println(iWantToGet(230, limits)); // {30=1, 100=2}
-        System.out.println(iWantToGet(1000, limits)); // {1000=1}
-        System.out.println(iWantToGet(200, limits)); // {100=2}
-        System.out.println(iWantToGet(400, limits)); // {50=1, 100=1}
-        System.out.println(iWantToGet(120, limits)); // {30=4}
-        System.out.println(iWantToGet(275, limits)); // {100=2, 50=1, 30=1}
+        System.out.println(iWantToGet(230, limits));
+        System.out.println(iWantToGet(1000, limits));
+        System.out.println(iWantToGet(200, limits));
+        System.out.println(iWantToGet(400, limits));
+        System.out.println(iWantToGet(120, limits));
+        System.out.println(iWantToGet(275, limits));
     }
 }
 

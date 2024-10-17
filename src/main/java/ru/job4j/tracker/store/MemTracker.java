@@ -1,10 +1,12 @@
-package ru.job4j.tracker;
+package ru.job4j.tracker.store;
+
+import ru.job4j.tracker.Item;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Tracker {
+public class MemTracker implements Store {
     private final List<Item> items = new ArrayList<>();
     private int ids = 1;
 
@@ -43,13 +45,9 @@ public class Tracker {
         return result;
     }
 
-    public boolean delete(int id) {
+    public void delete(int id) {
         int index = indexOf(id);
-        boolean result = index != -1;
-        if (result) {
             items.remove(index);
-        }
-        return result;
     }
 
     private int indexOf(int id) {
@@ -60,5 +58,9 @@ public class Tracker {
             }
         }
         return -1;
+    }
+
+    @Override
+    public void close() {
     }
 }
