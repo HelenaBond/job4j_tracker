@@ -105,8 +105,9 @@ public class SqlTracker implements Store {
         List<Item> itemList = new ArrayList<>();
         try (var preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, key);
-            var resultSet = preparedStatement.executeQuery();
-            itemList = getList(resultSet);
+            try (var resultSet = preparedStatement.executeQuery()) {
+                itemList = getList(resultSet);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -119,9 +120,10 @@ public class SqlTracker implements Store {
         var sql = "SELECT * FROM items WHERE id = ?";
         try (var preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, id);
-            var resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                item = getItem(resultSet);
+            try (var resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    item = getItem(resultSet);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
