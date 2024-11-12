@@ -1,7 +1,9 @@
 package ru.job4j.tracker;
 
 import ru.job4j.tracker.action.*;
-import ru.job4j.tracker.store.SqlTracker;
+import ru.job4j.tracker.action.profile.CreateManyItems;
+import ru.job4j.tracker.action.profile.DeleteAllItems;
+import ru.job4j.tracker.store.MemTracker;
 import ru.job4j.tracker.store.Store;
 
 import java.util.Arrays;
@@ -38,8 +40,10 @@ public class StartUI {
     public static void main(String[] args) {
         Output output = new ConsoleOutput();
         Input input = new ValidateInput(output, new ConsoleInput(output));
-        try (Store store = new SqlTracker()) {
+        Store store = new MemTracker();
             List<UserAction> actions = Arrays.asList(
+                    new CreateManyItems(output),
+                    new DeleteAllItems(output),
                     new Create(output),
                     new FindAll(output),
                     new Replace(output),
@@ -49,8 +53,5 @@ public class StartUI {
                     new Exit(output)
             );
             new StartUI(output).init(input, store, actions);
-        }  catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }
